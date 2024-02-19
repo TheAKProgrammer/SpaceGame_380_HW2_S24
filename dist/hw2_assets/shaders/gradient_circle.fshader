@@ -1,6 +1,7 @@
 precision mediump float;
 
 varying vec4 v_Position;
+// var color
 
 // HOMEWORK 2 - TODO
 /*
@@ -23,5 +24,6 @@ void main(){
 	}
 
 	// Use the alpha value in our color
+	//instead of hard code make var
 	gl_FragColor = vec4(1.0, 0.0, 0.0, alpha);
 }

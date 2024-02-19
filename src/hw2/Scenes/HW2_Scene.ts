@@ -502,6 +502,8 @@ export default class Homework1_Scene extends Scene {
 				break;
 			}
 		}
+		//set color option
+		asteroid.color = Color.RED;
 
 		if (asteroid !== null) {
 			// Bring this asteroid to life
