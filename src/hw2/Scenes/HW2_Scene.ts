@@ -83,6 +83,7 @@ export default class Homework1_Scene extends Scene {
 		this.load.image("space", "hw2_assets/sprites/space.png");
 
 		/* ##### YOUR CODE GOES BELOW THIS LINE ##### */
+		this.load.spritesheet("rocket", "hw2_assets/spritesheets/rocket.json");
 	}
 
 	/*
