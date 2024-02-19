@@ -74,7 +74,7 @@ export default class Homework1_Scene extends Scene {
 	 * loadScene() overrides the parent class method. It allows us to load in custom assets for
 	 * use in our scene.
 	 */
-	loadScene(){
+	loadScene() {
 		/* ##### DO NOT MODIFY ##### */
 		// Load in the player spaceship spritesheet
 		this.load.spritesheet("player", "hw2_assets/spritesheets/player_spaceship.json");
@@ -90,7 +90,7 @@ export default class Homework1_Scene extends Scene {
 	 * startScene() allows us to add in the assets we loaded in loadScene() as game objects.
 	 * Everything here happens strictly before update
 	 */
-	startScene(){
+	startScene() {
 		/* ##### DO NOT MODIFY ##### */
 		// Create a background layer
 		this.addLayer("background", 0);
@@ -106,7 +106,7 @@ export default class Homework1_Scene extends Scene {
 
 		// Initialize the player
 		this.initializePlayer();
-		
+
 		// Initialize the UI
 		this.initializeUI();
 
@@ -114,7 +114,7 @@ export default class Homework1_Scene extends Scene {
 		this.initializeObjectPools();
 
 		// Spawn some asteroids to start the game
-		for(let i = 0; i < this.INITIAL_NUM_ASTEROIDS; i++){
+		for (let i = 0; i < this.INITIAL_NUM_ASTEROIDS; i++) {
 			this.spawnAsteroid();
 		}
 
@@ -131,12 +131,12 @@ export default class Homework1_Scene extends Scene {
 	/*
 	 * updateScene() is where the real work is done. This is where any custom behavior goes.
 	 */
-	updateScene(deltaT: number){
+	updateScene(deltaT: number) {
 		// Handle events we care about
 		this.handleEvents();
 
 		// Update flocks
-		for(let fb of this.flockControllers){
+		for (let fb of this.flockControllers) {
 			fb.update(this.player);
 		}
 
@@ -152,14 +152,14 @@ export default class Homework1_Scene extends Scene {
 		// Handle screen wrapping
 		this.handleScreenWrap(this.player, viewportCenter, paddedViewportSize);
 
-		for(let ship of this.fleet){
-			if(ship.visible){
+		for (let ship of this.fleet) {
+			if (ship.visible) {
 				this.handleScreenWrap(ship, viewportCenter, paddedViewportSize);
 			}
 		}
 
-		for(let asteroid of this.asteroids){
-			if(asteroid.visible){
+		for (let asteroid of this.asteroids) {
+			if (asteroid.visible) {
 				this.handleScreenWrap(asteroid, viewportCenter, paddedViewportSize);
 			}
 		}
@@ -175,7 +175,7 @@ export default class Homework1_Scene extends Scene {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
 		this.player = this.add.animatedSprite("player", "primary");
-		
+
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
 		this.player.scale.set(0.5, 0.5);
@@ -188,7 +188,7 @@ export default class Homework1_Scene extends Scene {
 		this.player.setCollisionShape(playerCollider)
 
 		// Add a playerController to the player
-		this.player.addAI(SpaceshipPlayerController, {owner: this.player, spawnFleetEventKey: "spawnFleet", initialShield: this.playerShield});
+		this.player.addAI(SpaceshipPlayerController, { owner: this.player, spawnFleetEventKey: "spawnFleet", initialShield: this.playerShield });
 	}
 
 	/**
@@ -199,25 +199,25 @@ export default class Homework1_Scene extends Scene {
 		this.addUILayer("ui");
 
 		// Minerals label
-		this.mineralsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", {position: new Vec2(125, 50), text: `Minerals: ${this.mineralAmount}`});
+		this.mineralsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", { position: new Vec2(125, 50), text: `Minerals: ${this.mineralAmount}` });
 		this.mineralsLabel.size.set(200, 50);
 		this.mineralsLabel.setHAlign("left");
 		this.mineralsLabel.textColor = Color.WHITE;
 
 		// Shields label
-		this.shieldsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", {position: new Vec2(375, 50), text: `Shield: ${this.playerShield}`});
+		this.shieldsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", { position: new Vec2(375, 50), text: `Shield: ${this.playerShield}` });
 		this.shieldsLabel.size.set(200, 50);
 		this.shieldsLabel.setHAlign("left");
 		this.shieldsLabel.textColor = Color.WHITE;
 
 		// Fleet label
-		this.fleetLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", {position: new Vec2(625, 50), text: "Fleet Size: 0"});
+		this.fleetLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", { position: new Vec2(625, 50), text: "Fleet Size: 0" });
 		this.fleetLabel.size.set(200, 50);
 		this.fleetLabel.setHAlign("left");
 		this.fleetLabel.textColor = Color.WHITE;
 
 		// Asteroids label
-		this.asteroidsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", {position: new Vec2(875, 50), text: "Asteroids: 0"});
+		this.asteroidsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "ui", { position: new Vec2(875, 50), text: "Asteroids: 0" });
 		this.asteroidsLabel.size.set(200, 50);
 		this.asteroidsLabel.setHAlign("left");
 		this.asteroidsLabel.textColor = Color.WHITE;
@@ -230,7 +230,7 @@ export default class Homework1_Scene extends Scene {
 	 */
 	initializeObjectPools(): void {
 		// Initialize the fleet object pool
-		for(let i = 0; i < this.fleet.length; i++){
+		for (let i = 0; i < this.fleet.length; i++) {
 			this.fleet[i] = this.add.animatedSprite(Homework2Names.FLEET_SHIP, "primary");
 			this.fleet[i].animation.play(Homework2Animations.SHIP_IDLE);
 			this.fleet[i].scale.set(0.3, 0.3);
@@ -240,7 +240,7 @@ export default class Homework1_Scene extends Scene {
 			this.flockControllers[i] = new FlockBehavior(this.fleet[i], this.fleet, 150, 50);
 
 			// Add AI to our ship
-			this.fleet[i].addAI(BoidBehavior, {fb: this.flockControllers[i], separationFactor: 3, alignmentFactor: 1, cohesionFactor: 3});
+			this.fleet[i].addAI(BoidBehavior, { fb: this.flockControllers[i], separationFactor: 3, alignmentFactor: 1, cohesionFactor: 3 });
 
 			// Add a collider to our ship
 			let collider = new AABB(Vec2.ZERO, new Vec2(32, 32));
@@ -248,14 +248,14 @@ export default class Homework1_Scene extends Scene {
 		}
 
 		// Initialize the mineral object pool
-		for(let i = 0; i < this.minerals.length; i++){
-			this.minerals[i] = this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(0, 0), size: new Vec2(32, 32)});
+		for (let i = 0; i < this.minerals.length; i++) {
+			this.minerals[i] = this.add.graphic(GraphicType.RECT, "primary", { position: new Vec2(0, 0), size: new Vec2(32, 32) });
 			this.minerals[i].visible = false;
 		}
 
 		// Initialize the asteroid object pool
-		for(let i = 0; i < this.asteroids.length; i++){
-			this.asteroids[i] = this.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(0, 0), size: new Vec2(100, 100)});
+		for (let i = 0; i < this.asteroids.length; i++) {
+			this.asteroids[i] = this.add.graphic(GraphicType.RECT, "primary", { position: new Vec2(0, 0), size: new Vec2(100, 100) });
 			// Use our custom shader for the asteroids
 			this.asteroids[i].useCustomShader(Homework2Shaders.GRADIENT_CIRCLE);
 
@@ -273,20 +273,20 @@ export default class Homework1_Scene extends Scene {
 
 	// Spawns a new ship for your fleet
 	spawnShip(position: Vec2): void {
-		if(this.mineralAmount < 2) return;
+		if (this.mineralAmount < 2) return;
 
 		// Find the first viable ship
 		let ship: AnimatedSprite = null;
 
-		for(let s of this.fleet){
-			if(!s.visible){
+		for (let s of this.fleet) {
+			if (!s.visible) {
 				// We found a dead asteroid
 				ship = s;
 				break;
 			}
 		}
 
-		if(ship !== null){
+		if (ship !== null) {
 			// Spawn a ship
 			ship.visible = true;
 			ship.position = position;
@@ -294,7 +294,7 @@ export default class Homework1_Scene extends Scene {
 
 			this.fleetSize += 1;
 			this.mineralAmount -= 2;
-			
+
 			// Update GUI
 			this.fleetLabel.text = `Fleet: ${this.fleetSize}`;
 			this.mineralsLabel.text = `Minerals: ${this.mineralAmount}`;
@@ -306,15 +306,15 @@ export default class Homework1_Scene extends Scene {
 		// Find the first viable mineral
 		let mineral: Graphic = null;
 
-		for(let m of this.minerals){
-			if(!m.visible){
+		for (let m of this.minerals) {
+			if (!m.visible) {
 				// We found a dead asteroid
 				mineral = m;
 				break;
 			}
 		}
 
-		if(mineral !== null){
+		if (mineral !== null) {
 			// Bring this mineral to life
 			mineral.visible = true;
 
@@ -322,7 +322,7 @@ export default class Homework1_Scene extends Scene {
 			// Loop on position until we're clear of the player
 			mineral.position = RandUtils.randVec(0, viewportSize.x, 0, viewportSize.y);
 
-			while(mineral.position.distanceTo(this.player.position) < this.MIN_SPAWN_DISTANCE){
+			while (mineral.position.distanceTo(this.player.position) < this.MIN_SPAWN_DISTANCE) {
 				mineral.position = RandUtils.randVec(0, viewportSize.x, 0, viewportSize.y);
 			}
 		}
@@ -331,32 +331,32 @@ export default class Homework1_Scene extends Scene {
 	/* ############################## */
 
 	/* ########## UPDATE SCENE METHODS ########## */
-	
+
 	/**
 	 * Handles all events we care about in the update cycle.
 	 * Gets all events from the receiver this frame, and reacts to them accordingly
 	 */
-	handleEvents(){
-		while(this.receiver.hasNextEvent()){
+	handleEvents() {
+		while (this.receiver.hasNextEvent()) {
 			let event = this.receiver.getNextEvent();
 
-			if(event.type === Homework2Event.PLAYER_I_FRAMES_END){
+			if (event.type === Homework2Event.PLAYER_I_FRAMES_END) {
 				this.playerinvincible = false;
 			}
 
-			if(event.type === Homework2Event.PLAYER_DEAD){
+			if (event.type === Homework2Event.PLAYER_DEAD) {
 				this.playerDead = true;
 			}
 
-			if(event.type === Homework2Event.SPAWN_FLEET){
+			if (event.type === Homework2Event.SPAWN_FLEET) {
 				this.spawnShip(event.data.get("position"));
 			}
 
-			if(event.type === Homework2Event.SHIP_DEAD){
+			if (event.type === Homework2Event.SHIP_DEAD) {
 				// Fleet member died, hide them
 				this.fleetSize -= 1;
 				event.data.get("owner").visible = false;
-				
+
 				// Update te gui
 				this.fleetLabel.text = `Fleet: ${this.fleetSize}`;
 			}
@@ -370,23 +370,23 @@ export default class Homework1_Scene extends Scene {
 		this.asteroidTimer += deltaT;
 		this.mineralTimer += deltaT;
 
-		if(this.playerDead) this.gameEndTimer += deltaT;
+		if (this.playerDead) this.gameEndTimer += deltaT;
 
-		if(this.asteroidTimer > this.ASTEROID_MAX_TIME){
+		if (this.asteroidTimer > this.ASTEROID_MAX_TIME) {
 			// Spawn an asteroid at a random location (not near the player)
 			this.asteroidTimer -= this.ASTEROID_MAX_TIME;
 			this.spawnAsteroid();
 		}
 
-		if(this.mineralTimer > this.MINERAL_MAX_TIME){
+		if (this.mineralTimer > this.MINERAL_MAX_TIME) {
 			// Spawn a mineral at a random location (not near the player)
 			this.mineralTimer -= this.MINERAL_MAX_TIME;
 			this.spawnMineral();
 		}
 
-		if(this.gameEndTimer > this.GAME_END_MAX_TIME){
+		if (this.gameEndTimer > this.GAME_END_MAX_TIME) {
 			// End the game
-			this.sceneManager.changeScene(GameOver, {score: this.numAsteroidsDestroyed}, {});
+			this.sceneManager.changeScene(GameOver, { score: this.numAsteroidsDestroyed }, {});
 		}
 	}
 
@@ -414,19 +414,19 @@ export default class Homework1_Scene extends Scene {
 	 *	2) The player must be damaged. This has two parts to it.
 	 *		i) The player shield, which is tracked here, must decrease, and the player should become invincible.
 	 *		ii) We must send an event to the EventQueue saying that the player has been damaged. You'll have to go 
-	 			into the SpaceshipPlayerController class and make sure it is  subscribed to these types of events.
+					into the SpaceshipPlayerController class and make sure it is  subscribed to these types of events.
 				For event data, we must include the shield level after the player takes damage. This data is
 				important for knowing when the player dies. You'll know yours is working if you go to a game over
 				screen once you lose all of your health.
 		3) The text of the GUI must be updated.
 		4) We must increase the player's score, or numAsteroidsDestroyed
 	 */
-	handleCollisions(){
+	handleCollisions() {
 		/* ########## DO NOT MODIFY THIS CODE ########## */
 
 		// Check for mineral collisions
-		for(let mineral of this.minerals){
-			if(mineral.visible && this.player.collisionShape.overlaps(mineral.boundary)){
+		for (let mineral of this.minerals) {
+			if (mineral.visible && this.player.collisionShape.overlaps(mineral.boundary)) {
 				// A collision happened - destroy the mineral
 				mineral.visible = false;
 
@@ -439,15 +439,15 @@ export default class Homework1_Scene extends Scene {
 		}
 
 		// Check for collisions of fleet with asteroids
-		for(let asteroid of this.asteroids){
+		for (let asteroid of this.asteroids) {
 			// If the asteroid is spawned
-			if(asteroid.visible){
-				for(let ship of this.fleet){
+			if (asteroid.visible) {
+				for (let ship of this.fleet) {
 					// If the ship is spawned, isn't already dying, and overlaps the asteroid
-					if(ship.visible &&
-						!ship.animation.isPlaying("explode") && 
+					if (ship.visible &&
+						!ship.animation.isPlaying("explode") &&
 						Homework1_Scene.checkAABBtoCircleCollision(<AABB>ship.collisionShape, <Circle>asteroid.collisionShape)
-					){
+					) {
 						// Kill asteroid
 						asteroid.visible = false;
 						this.numAsteroids -= 1;
@@ -456,7 +456,7 @@ export default class Homework1_Scene extends Scene {
 						this.asteroidsLabel.text = `Asteroids: ${this.numAsteroids}`;
 
 						// Send out an event to destroy the ship
-						this.emitter.fireEvent(Homework2Event.SHIP_DAMAGE, {id: ship.id});
+						this.emitter.fireEvent(Homework2Event.SHIP_DAMAGE, { id: ship.id });
 
 						// Exit early - we only need to destroy one ship
 						break;
@@ -470,10 +470,10 @@ export default class Homework1_Scene extends Scene {
 
 		// If the player is not invincible (e.g. they just got hit by an asteroid last frame),
 		// check for asteroid collisions
-		if(!this.playerinvincible){
-			for(let asteroid of this.asteroids){
+		if (!this.playerinvincible) {
+			for (let asteroid of this.asteroids) {
 				// If the asteroid is spawned in and it overlaps the player
-				if(asteroid.visible && Homework1_Scene.checkAABBtoCircleCollision(<AABB>this.player.collisionShape, <Circle>asteroid.collisionShape)){
+				if (asteroid.visible && Homework1_Scene.checkAABBtoCircleCollision(<AABB>this.player.collisionShape, <Circle>asteroid.collisionShape)) {
 					// Put your code here:
 
 				}
@@ -495,15 +495,15 @@ export default class Homework1_Scene extends Scene {
 		// Find the first viable asteroid
 		let asteroid: Graphic = null;
 
-		for(let a of this.asteroids){
-			if(!a.visible){
+		for (let a of this.asteroids) {
+			if (!a.visible) {
 				// We found a dead asteroid
 				asteroid = a;
 				break;
 			}
 		}
 
-		if(asteroid !== null){
+		if (asteroid !== null) {
 			// Bring this asteroid to life
 			asteroid.visible = true;
 
@@ -512,13 +512,13 @@ export default class Homework1_Scene extends Scene {
 
 			// Loop on position until we're clear of the player
 			asteroid.position = RandUtils.randVec(0, viewportSize.x, 0, viewportSize.y);
-			while(asteroid.position.distanceTo(this.player.position) < this.MIN_SPAWN_DISTANCE){
+			while (asteroid.position.distanceTo(this.player.position) < this.MIN_SPAWN_DISTANCE) {
 				asteroid.position = RandUtils.randVec(0, viewportSize.x, 0, viewportSize.y);
 			}
 
 			// Assign a random direction
-			let dir = Vec2.UP.rotateCCW(Math.random()*Math.PI*2);
-			asteroid.setAIActive(true, {direction: dir});
+			let dir = Vec2.UP.rotateCCW(Math.random() * Math.PI * 2);
+			asteroid.setAIActive(true, { direction: dir });
 			AsteroidAI.SPEED += this.ASTEROID_SPEED_INC;
 
 			// Update the UI
@@ -570,6 +570,33 @@ export default class Homework1_Scene extends Scene {
 	 */
 	handleScreenWrap(node: GameNode, viewportCenter: Vec2, paddedViewportSize: Vec2): void {
 		// Your code goes here:
+		//viewportCenter.x + paddedViewportSize.x/2 right border if greater than or equal to right border go to left border
+
+		//If the player passes the right border
+		if (node.position.x > viewportCenter.x + paddedViewportSize.x / 2) {
+			node.position.x = viewportCenter.x - paddedViewportSize.x / 2
+
+		}
+
+		//If the player passes the left border
+		if (node.position.x < viewportCenter.x - paddedViewportSize.x / 2) {
+			node.position.x = viewportCenter.x + paddedViewportSize.x / 2
+
+		}
+
+		//If the player passes the upper border
+		if (node.position.y >= viewportCenter.y + paddedViewportSize.y / 2) {
+			node.position.y = viewportCenter.y - paddedViewportSize.y / 2
+
+		}
+
+		//If the player passes the bottom border
+		if (node.position.y <= viewportCenter.y - paddedViewportSize.y / 2) {
+			node.position.y = viewportCenter.y + paddedViewportSize.y / 2
+
+		}
+
+
 
 	}
 
