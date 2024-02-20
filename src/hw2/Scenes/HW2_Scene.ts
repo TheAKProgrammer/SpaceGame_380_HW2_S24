@@ -502,8 +502,19 @@ export default class Homework1_Scene extends Scene {
 				break;
 			}
 		}
+		let colorArray= [Color.MAGENTA,Color.GREEN,Color.RED, Color.WHITE,Color.BLUE, Color.CYAN];
+		//asteroid.color=colorArray[(Math.floor(Math.random()*5 + 1))];
+		
+		//asteroid.color=colorArray[((Math.random()*colorArray.length))];
 		//set color option
-		asteroid.color = Color.RED;
+
+		asteroid.color = colorArray[(Math.random() * colorArray.length) | 0];
+
+		
+		//set color option
+		//asteroid.color = Color.RED;
+		
+		//asteroid.color = Color.RED;
 
 		if (asteroid !== null) {
 			// Bring this asteroid to life

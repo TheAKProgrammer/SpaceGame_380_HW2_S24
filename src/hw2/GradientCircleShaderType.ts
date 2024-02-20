@@ -4,6 +4,7 @@ import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import Rect from "../Wolfie2D/Nodes/Graphics/Rect";
 import RectShaderType from "../Wolfie2D/Rendering/WebGLRendering/ShaderTypes/RectShaderType";
 
+import color from "../Wolfie2D/Utils/Color"
 /**
  * The gradient circle is technically rendered on a quad, and is similar to a rect, so we'll extend the RectShaderType
  */
@@ -79,6 +80,10 @@ export default class GradientCircleShaderType extends RectShaderType {
 		//const color = gl.getUniformLocation(program, "name of var from fshader");
 		//gl.uniform4v(color, placeholder.r, g, b, a);
 		//options.color.r/g/b/a
+
+		const color=gl.getUniformLocation(program,"color");
+		//gl.uniform4f(color,options.r,color,options.g,color.options.b, color.options.a);
+		gl.uniform4f(color, options.color.r, options.color.g, options.color.b, options.color.a);
 	}
 
 	// HOMEWORK 2 - TODO
